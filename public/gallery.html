@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logo Gallery</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .item { background: white; padding: 10px; border: 1px solid #ddd; border-radius: 8px; text-align: center; }
+        img { max-width: 100%; border: 1px solid #eee; }
+        .name { font-size: 12px; color: #666; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Latest Media Files Diagnostic Gallery</h1>
+    <div id="gallery" class="gallery"></div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        // We'll manualy list the files I just copied
+        const files = [
+            'media__1773856847579.png',
+            'media__1773856528655.png',
+            'media__1773856507729.png',
+            'media__1773856233706.png',
+            'media__1773855964290.png',
+            'media__1773855838961.png',
+            'media__1773855746662.png',
+            'media__1773855547981.png',
+            'media__1773855508988.png',
+            'media__1773855247231.png'
+        ];
+
+        files.forEach(file => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.innerHTML = `
+                <div class="name">${file}</div>
+                <img src="/gallery/${file}" alt="${file}">
+            `;
+            gallery.appendChild(div);
+        });
+    </script>
+</body>
+</html>
