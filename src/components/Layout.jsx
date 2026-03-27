@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import futLogo from '../assets/fut_minna_logo.png';
@@ -6,6 +6,9 @@ import futLogo from '../assets/fut_minna_logo.png';
 const Layout = () => {
   const { user, logout } = useApp();
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   const handleLogout = () => {
     logout();
@@ -14,7 +17,8 @@ const Layout = () => {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar">
+      <div className={`sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} onClick={closeSidebar}></div>
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
           <div className="sidebar-logo-inner">
             <div className="sidebar-logo-icon">
@@ -28,19 +32,19 @@ const Layout = () => {
         </div>
 
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
+          <NavLink to="/dashboard" onClick={closeSidebar} className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
             Dashboard
           </NavLink>
-          <NavLink to="/students" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
+          <NavLink to="/students" onClick={closeSidebar} className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
             Students
           </NavLink>
-          <NavLink to="/results-entry" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
+          <NavLink to="/results-entry" onClick={closeSidebar} className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
             Record Results
           </NavLink>
-          <NavLink to="/reports" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
+          <NavLink to="/reports" onClick={closeSidebar} className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
             Report Cards
           </NavLink>
-          <NavLink to="/analytics" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
+          <NavLink to="/analytics" onClick={closeSidebar} className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
             Analytics
           </NavLink>
         </nav>
@@ -54,7 +58,10 @@ const Layout = () => {
 
       <main className="main-content">
         <header className="top-header">
-          <div className="top-header-title">Student Result Management</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button className="mobile-toggle" onClick={() => setIsSidebarOpen(true)}>☰</button>
+            <div className="top-header-title">Student Result Management</div>
+          </div>
           <div className="topbar-actions">
             <div className="topbar-user">
               <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
